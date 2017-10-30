@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.0.xsd"
+	   default-lazy-init="true">
+
+	<!-- 引入属性文件 -->
+	<context:property-placeholder location="classpath:config.properties"
+		ignore-resource-not-found="true" ignore-unresolvable="true" />
+		
+	<!-- 启用定时器注解 -->
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+	<task:executor id="executor" pool-size="10-1000" queue-capacity="10" keep-alive="10" rejection-policy="CALLER_RUNS" />
+	<task:scheduler id="scheduler" pool-size="10" />
+
+	<!-- 扫描文件中的注解 -->
+	<context:component-scan base-package="com.aaron.aaronworld">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<!-- mongo的工厂，通过它来取得mongo实例,dbname为mongodb的数据库名，没有的话会自动创建 -->
+	<!-- <mongo:db-factory host="${mongo.host}" port="${mongo.post}"
+		dbname="fs" /> -->
+
+	<!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成 -->
+	<!-- <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean> -->
+
+	<!--数据库连接 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialPoolSize" value="${connection_pools.initial_pool_size}" />
+		<property name="minPoolSize" value="${connection_pools.min_pool_size}" />
+		<property name="maxPoolSize" value="${connection_pools.max_pool_size}" />
+		<property name="maxIdleTime" value="${connection_pools.max_idle_time}" />
+		<property name="acquireIncrement" value="${connection_pools.acquire_increment}" />
+		<property name="checkoutTimeout" value="${connection_pools.checkout_timeout}" />
+		<property name="testConnectionOnCheckin" value="false" />
+		<property name="testConnectionOnCheckout" value="true" />
+	</bean>
+
+	<!-- 事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 开启事务注解驱动 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 创建SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:com/aaron/aaronworld/**/mapping/*.xml" />
+	</bean>
+
+	<!-- 自动扫描映射器 TODO -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.aaron.aaronworld.dao" />
+	</bean>
+	
+	<!-- 开启基于@AspectJ切面的注解处理器 -->
+	<aop:aspectj-autoproxy />
+
+	<!-- properties文件读取到内存 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 实现国际化 -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.FixedLocaleResolver" />
+
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+	<bean id="exceptionResolver"
+		class="com.aaron.aaronworld.base.exception.CustomSimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="com.aaron.aaronworld.base.exception.SystemException">system_exception</prop>
+				<prop key="com.aaron.aaronworld.base.exception.AccessException">system_exception</prop>
+				<prop key="com.aaron.aaronworld.base.exception.MngAuthorizationException">redirect:/manager/toLogin.do</prop>
+				<prop key="java.lang.exception">system_exception</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 读取配置文件到 configProperties 对象中 -->
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	
+    <!-- 导入mongodb的配置文件 -->  
+    <import resource="applicationContext-redis.xml"/> 
+</beans>

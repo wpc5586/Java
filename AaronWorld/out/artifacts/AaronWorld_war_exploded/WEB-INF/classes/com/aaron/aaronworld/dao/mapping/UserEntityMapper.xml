@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaron.aaronworld.dao.UserEntityMapper">
+    <resultMap id="BaseResultMap" type="com.aaron.aaronworld.dao.entity.UserEntity">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="role" jdbcType="CHAR" property="role"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="city_code" jdbcType="VARCHAR" property="cityCode"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="user_sex" jdbcType="CHAR" property="userSex"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="is_usable" jdbcType="CHAR" property="isUsable"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, user_name, role, user_password, city_code, city_name, user_sex, user_phone,
+    user_email, create_date, create_user, update_date, update_user, is_usable, remark
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByEntity" parameterType="com.aaron.aaronworld.dao.entity.UserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where 1 = 1
+        <if test="userId != null">
+            AND user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="id != null">
+            AND id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userId == null and id == null">
+            AND 1=0
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.aaron.aaronworld.dao.entity.UserEntity">
+    insert into sys_user (id, user_id, user_name, 
+      role, user_password, city_code, 
+      city_name, user_sex, user_phone, 
+      user_email, create_date, create_user, 
+      update_date, update_user, is_usable, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{role,jdbcType=CHAR}, #{userPassword,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{userSex,jdbcType=CHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{isUsable,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.aaron.aaronworld.dao.entity.UserEntity">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="cityCode != null">
+                city_code,
+            </if>
+            <if test="cityName != null">
+                city_name,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="isUsable != null">
+                is_usable,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=CHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="cityCode != null">
+                #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=CHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="isUsable != null">
+                #{isUsable,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.aaron.aaronworld.dao.entity.UserEntity">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                role = #{role,jdbcType=CHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="cityCode != null">
+                city_code = #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=CHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="isUsable != null">
+                is_usable = #{isUsable,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.aaron.aaronworld.dao.entity.UserEntity">
+    update sys_user
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      role = #{role,jdbcType=CHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=CHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      is_usable = #{isUsable,jdbcType=CHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

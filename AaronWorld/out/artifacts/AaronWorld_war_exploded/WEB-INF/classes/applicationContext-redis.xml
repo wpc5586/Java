@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context.xsd" >  
+    <!-- 加载*.properties属性文件 -->  
+    <context:property-placeholder location="classpath:*.properties" />      
+    <context:component-scan base-package="com.aaron.aaronworld.service.*"/>
+    <!-- 分片池 begin   
+    Redis在3.x版本前是不支持服务端集群的，所以Jedis通过采用一致性哈稀分片算法（Shard），将不同的key分配到不同的redis server上，以达到横向扩展的目的。-->  
+    <!-- 连接池配置  最大连接数 最大空闲数  最长等待时间 连接是否可用-->  
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"> 
+        <property name="maxIdle" value="${redis.maxIdle}" />  
+        <property name="maxTotal" value="${redis.maxActive}" />
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />  
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />  
+    </bean>
+    <bean id="connectionFactory"  
+        class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />  
+        <property name="port" value="${redis.port}" />  
+        <property name="hostName" value="${redis.host}" />  
+        <property name="password" value="${redis.password}" />  
+        <property name="timeout" value="100000"></property> 
+   </bean>   
+   
+    <!-- redis客户端模板 -->  
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
+        <!-- 注入连接工厂 -->  
+        <property name="connectionFactory" ref="connectionFactory" />  
+        <!-- 配置key序列化类 -->  
+        <property name="keySerializer">  
+            <bean  
+                class="org.springframework.data.redis.serializer.StringRedisSerializer" />  
+        </property>  
+        <!-- 配置value序列化类 -->  
+        <property name="valueSerializer">  
+            <bean  
+                class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />  
+        </property>  
+    </bean>   
+</beans>    
