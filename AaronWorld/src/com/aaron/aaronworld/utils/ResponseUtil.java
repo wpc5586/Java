@@ -1,7 +1,7 @@
 /*****************************************************************************
  * 东方国信手机经分项目[mobile_jf]
  *----------------------------------------------------------------------------
- * cn.com.bonc.jf.common.util.ResponseUtil.java
+ * com.aaron.aaronworld.common.util.ResponseUtil.java
  *
  * @author andy
  * @date 2016年12月6日
@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * 响应工具类
- * cn.com.bonc.jf.common.util.ResponseUtil.java
+ * com.aaron.aaronworld.common.util.ResponseUtil.java
  * 
  * @author Aaron
  * @date 2017-10-30 09:50:35

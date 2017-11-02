@@ -3,6 +3,7 @@ package com.aaron.aaronworld.service.impl;
 import com.aaron.aaronworld.dao.UserEntityMapper;
 import com.aaron.aaronworld.dao.entity.UserEntity;
 import com.aaron.aaronworld.service.LoginService;
+import com.aaron.aaronworld.utils.Auth;
 import com.aaron.aaronworld.utils.Constant;
 import com.aaron.aaronworld.utils.MessageConstant;
 import com.aaron.aaronworld.utils.ResponseUtil;
@@ -20,7 +21,7 @@ import java.util.ResourceBundle;
 
 /**
  * 单元列表Service实现
- * 
+ *
  * @author Aaron
  */
 @Service("LoginServiceImpl")
@@ -37,22 +38,22 @@ public class LoginServiceImpl implements LoginService {
 
     /**
      * 获取IOS版本加密信息
-     * 
+     *
      * @return Map<String, Object> 返回数据对象
      */
     @Override
-    public Map<String, Object> getIosToken(){
+    public Map<String, Object> getIosToken() {
         return null;
     }
-    
+
     /**
      * 设置IOS版本加密信息
-     * 
+     *
      * @param iosToken
      * @return Map<String, Object> 返回数据对象
      */
     @Override
-    public Map<String, Object> setIosToken(String iosToken){
+    public Map<String, Object> setIosToken(String iosToken) {
         return null;
     }
 
@@ -61,19 +62,18 @@ public class LoginServiceImpl implements LoginService {
      *
      * @return Map<String, Object> 返回数据对象
      */
-    public Map<String, Object> login(String userId, String password, String SMScode, String phone, String imsi,
-                                     String imei, String hannelId, String deviceType, String srcip) {
-        Map<String,Object> resultMap = new HashMap<>();
-        Map<String,Object> obj = new HashMap<>();
+    public Map<String, Object> login(String userId, String password, String phone, String imsi,
+                                     String imei, String channelId, String deviceType) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> obj = new HashMap<>();
         try {
             UserEntity entity = new UserEntity();
             entity.setIsUsable("1");
             entity.setUserId(userId);
-            List<UserEntity> userEntities = userEntityMapper.selectByEntity(entity);
-            if (userEntities == null || userEntities.size() == 0)
+            UserEntity user = userEntityMapper.selectByEntity(entity);
+            if (user == null)
                 resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0004, obj);
             else {
-                UserEntity user = userEntities.get(0);
                 if (StringUtils.isNullOrEmpty(password))
                     resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0005, obj);
                 else if (password.equals(user.getUserPassword())) {
@@ -85,10 +85,45 @@ public class LoginServiceImpl implements LoginService {
                     vo.setUserEmail(user.getUserEmail());
                     vo.setUserPhone(user.getUserPhone());
                     vo.setUserSex(user.getUserSex());
+                    vo.setToken(Auth.createToken(imei, userId));
                     obj.put("user", vo);
-                    resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_NORMAL_DATA_NOT_HAVE, MessageConstant.MSG_INFO_COMMON_0001, obj);
+                    resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_NORMAL_DATA_HAVE, MessageConstant.MSG_INFO_COMMON_0001, obj);
                 } else
                     resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0006, obj);
+            }
+        } catch (Exception ex) {
+            // 失败原因log
+            logger.error(ex.getMessage());
+            // 用户请求异常
+            resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_ERROR_COMMON_0001, obj);
+        }
+        return resultMap;
+    }
+
+    /**
+     * 注册接口
+     *
+     * @return Map<String, Object> 返回数据对象
+     */
+    public Map<String, Object> regist(String userId, String password, String phone) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> obj = new HashMap<>();
+        try {
+            UserEntity entity = new UserEntity();
+            entity.setIsUsable("1");
+            entity.setUserId(userId);
+            UserEntity user = userEntityMapper.selectByEntity(entity);
+            if (user != null)
+                resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0007, obj);
+            else if (StringUtils.isNullOrEmpty(userId))
+                resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0008, obj);
+            else if (StringUtils.isNullOrEmpty(password))
+                resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0009, obj);
+            else {
+                entity.setUserPassword(password);
+                entity.setUserPhone(phone);
+                userEntityMapper.insertSelective(entity);
+                resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_NORMAL_DATA_HAVE, MessageConstant.MSG_INFO_COMMON_0001, obj);
             }
         } catch (Exception ex) {
             // 失败原因log
@@ -104,9 +139,9 @@ public class LoginServiceImpl implements LoginService {
      *
      * @return Map<String, Object> 返回数据对象
      */
-    public Map<String,Object> getSMScode(String userName, String platform, String password) {
+    public Map<String, Object> getSMScode(String userName, String platform, String password) {
         return null;
     }
-    
+
 
 }

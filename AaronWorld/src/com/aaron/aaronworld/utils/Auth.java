@@ -1,7 +1,7 @@
 /*****************************************************************************
  * 东方国信手机经分项目[mobile_jf]
  *----------------------------------------------------------------------------
- * cn.com.bonc.jf.common.util.Auth.java
+ * com.aaron.aaronworld.common.util.Auth.java
  *
  * @author andy
  * @date 2016年12月5日
@@ -13,15 +13,11 @@
  *****************************************************************************/
 package com.aaron.aaronworld.utils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * 鉴权工具类
- * cn.com.bonc.jf.common.util.Auth.java
+ * com.aaron.aaronworld.common.util.Auth.java
  * 
  * @author andy
  * @date 2016年12月5日
@@ -45,14 +41,14 @@ public class Auth {
 	/**
 	 * 生成TOKEN
 	 * 
-	 * @param cityId
+	 * @param imei
 	 * @param userId
 	 * @return String
 	 * @author andy
 	 */
-	public static String createToken(String cityId, String userId){
+	public static String createToken(String imei, String userId){
 		StringBuffer token = new StringBuffer();
-		token.append(AES.encrypt(cityId, authSecretKey)+authSeparator);
+		token.append(AES.encrypt(imei, authSecretKey)+authSeparator);
 		token.append(AES.encrypt(userId, authSecretKey)+authSeparator);
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MINUTE, Integer.valueOf(authExpireInterval));
@@ -93,13 +89,13 @@ public class Auth {
 	}
 	
 	/**
-	 * 获取城市id
+	 * 获取Imei
 	 * 
 	 * @param subTokenList
 	 * @return String
 	 * @author andy
 	 */
-	public static String getCityId(List<String> subTokenList){
+	public static String getImei(List<String> subTokenList){
 		return extractTokenInfo(subTokenList, 0);
 	}
 	
@@ -138,7 +134,7 @@ public class Auth {
 	 * @author andy
 	 */
 	public static Boolean isValid(List<String> subTokenList){
-		if(getTimestamp(subTokenList)!=null && getUserId(subTokenList)!=null && getCityId(subTokenList)!=null){
+		if(getTimestamp(subTokenList)!=null && getUserId(subTokenList)!=null && getImei(subTokenList)!=null){
 			return true;
 		} else {
 			return false;
@@ -179,13 +175,13 @@ public class Auth {
 	}
 	
 	/**
-	 * 获取城市id
+	 * 获取Imei
 	 * 
 	 * @param token
 	 * @return String
 	 * @author andy
 	 */
-	public static String getCityId(String token){
+	public static String getImei(String token){
 		return extractTokenInfo(token, 0);
 	}
 	
@@ -224,7 +220,7 @@ public class Auth {
 	 * @author andy
 	 */
 	public static Boolean isValid(String token){
-		if(getTimestamp(token)!=null && getUserId(token)!=null && getCityId(token)!=null){
+		if(getTimestamp(token)!=null && getUserId(token)!=null && getImei(token)!=null){
 			return true;
 		} else {
 			return false;
@@ -240,6 +236,8 @@ public class Auth {
 	 */
 	public static Boolean isLive(String token){
 		Long timestamp = getTimestamp(token);
+		System.out.println(timestamp);
+		System.out.println(Calendar.getInstance().getTimeInMillis());
 		if(timestamp!=null && timestamp>Calendar.getInstance().getTimeInMillis()){
 			return true;
 		} else {
@@ -248,9 +246,13 @@ public class Auth {
 	}
 	
 	public static void main(String[] args) {
-        String cityId = Auth.getCityId("6241823a70dd82564b04ded7eab42667-b2a1fa66d0d1962e277679818b2fee72-eb9a677015cc936fda9dc97fdf6a1625");
-        String userId = Auth.getUserId("6241823a70dd82564b04ded7eab42667-b2a1fa66d0d1962e277679818b2fee72-eb9a677015cc936fda9dc97fdf6a1625");
-        System.out.println(cityId+"_"+userId);
+		String token = createToken("240", "wpc5586");
+		token = "3baeb597a104eb6faf99db10f14dcc49-7a5312117779cd596883750ef33ab46a-f872c1a9339d69a9a1bdab8b211dab9e";
+		System.out.println(token);
+        String cityId = Auth.getImei(token);
+        String userId = Auth.getUserId(token);
+		System.out.println(cityId+"_"+userId);
+		System.out.println(isLive(token));
     }
 	
 }

@@ -55,4 +55,13 @@ public class MessageConstant {
 
     /** MSG_JF_ERROR_0004 密码错误 */
     public static final String MSG_JF_ERROR_0006 = "密码错误";
+
+    /** MSG_JF_ERROR_0004 用户名已存在 */
+    public static final String MSG_JF_ERROR_0007 = "用户名已存在";
+
+    /** MSG_JF_ERROR_0004 用户名不可为空 */
+    public static final String MSG_JF_ERROR_0008 = "用户名不可为空";
+
+    /** MSG_JF_ERROR_0004 密码不可为空 */
+    public static final String MSG_JF_ERROR_0009 = "密码不可为空";
 }

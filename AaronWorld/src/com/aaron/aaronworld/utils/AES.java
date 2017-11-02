@@ -1,7 +1,7 @@
 /*****************************************************************************
  * 东方国信手机经分项目[wm-spider]
  *----------------------------------------------------------------------------
- * cn.com.bonc.jf.common.util.AES.java
+ * com.aaron.aaronworld.common.util.AES.java
  *
  * @author andy
  * @date 2016年11月20日
@@ -30,7 +30,7 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * AES加密工具类
- * cn.com.bonc.jf.common.util.AES.java
+ * com.aaron.aaronworld.common.util.AES.java
  * 
  * @author andy
  * @date 2016年11月20日

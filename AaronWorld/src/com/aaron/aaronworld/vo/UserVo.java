@@ -28,6 +28,8 @@ public class UserVo {
 
     private String remark;
 
+    private String token;
+
     public String getUserName() {
         return userName;
     }
@@ -130,5 +132,13 @@ public class UserVo {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

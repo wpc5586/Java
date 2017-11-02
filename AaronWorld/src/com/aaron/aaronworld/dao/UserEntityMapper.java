@@ -9,11 +9,13 @@ public interface UserEntityMapper {
 
     int insert(UserEntity record);
 
+    int insertEntity(UserEntity record);
+
     int insertSelective(UserEntity record);
 
     UserEntity selectByPrimaryKey(Integer id);
 
-    List<UserEntity> selectByEntity(UserEntity record);
+    UserEntity selectByEntity(UserEntity record);
 
     int updateByPrimaryKeySelective(UserEntity record);
 

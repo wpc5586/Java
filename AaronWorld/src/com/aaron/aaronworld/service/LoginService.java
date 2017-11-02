@@ -4,9 +4,9 @@ package com.aaron.aaronworld.service;
 import java.util.Map;
 
 /**
- * 版本判断Service
+ * 登录判断Service
  * 
- * @author  L
+ * @author  Aaron
  */
 public interface LoginService {
     /**
@@ -29,13 +29,19 @@ public interface LoginService {
      * 
      * @return Map<String, Object> 返回数据对象
      */
-    public Map<String, Object> login(String userName, String password, String SMScode, String phone, String imsi,
-                                       String imei, String hannelId, String deviceType, String srcip);
+    public Map<String, Object> login(String userId, String password, String phone, String imsi, String imei, String channelId, String deviceType);
+
+    /**
+     * 注册接口
+     *
+     * @return Map<String, Object> 返回数据对象
+     */
+    public Map<String,Object> regist(String userId, String password, String phone);
     
     /**
      * 发送短信认证码接口
      * 
      * @return Map<String, Object> 返回数据对象
      */
-    public Map<String,Object> getSMScode(String userName, String platform, String password);
+    public Map<String,Object> getSMScode(String userId, String platform, String password);
 }
