@@ -7,6 +7,7 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="role" jdbcType="CHAR" property="role"/>
         <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
         <result column="city_code" jdbcType="VARCHAR" property="cityCode"/>
         <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
         <result column="user_sex" jdbcType="CHAR" property="userSex"/>
@@ -20,7 +21,7 @@
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, user_id, user_name, role, user_password, city_code, city_name, user_sex, user_phone,
+        id, user_id, user_name, role, user_password, uuid, city_code, city_name, user_sex, user_phone,
         user_email, create_date, create_user, update_date, update_user, is_usable, remark
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -84,6 +85,9 @@
             <if test="userPassword != null">
                 user_password,
             </if>
+            <if test="uuid != null">
+                uuid,
+            </if>
             <if test="cityCode != null">
                 city_code,
             </if>
@@ -133,6 +137,9 @@
             </if>
             <if test="userPassword != null">
                 #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
             </if>
             <if test="cityCode != null">
                 #{cityCode,jdbcType=VARCHAR},

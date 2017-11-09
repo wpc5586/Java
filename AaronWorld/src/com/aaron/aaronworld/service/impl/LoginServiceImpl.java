@@ -1,21 +1,25 @@
 package com.aaron.aaronworld.service.impl;
 
 import com.aaron.aaronworld.dao.UserEntityMapper;
+import com.aaron.aaronworld.dao.entity.EmchatUserEntity;
 import com.aaron.aaronworld.dao.entity.UserEntity;
+import com.aaron.aaronworld.emchat.api.impl.EasemobIMUsers;
 import com.aaron.aaronworld.service.LoginService;
 import com.aaron.aaronworld.utils.Auth;
 import com.aaron.aaronworld.utils.Constant;
 import com.aaron.aaronworld.utils.MessageConstant;
 import com.aaron.aaronworld.utils.ResponseUtil;
 import com.aaron.aaronworld.vo.UserVo;
+import com.google.gson.Gson;
 import com.mysql.jdbc.StringUtils;
+import io.swagger.client.model.RegisterUsers;
+import io.swagger.client.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -86,6 +90,7 @@ public class LoginServiceImpl implements LoginService {
                     vo.setUserPhone(user.getUserPhone());
                     vo.setUserSex(user.getUserSex());
                     vo.setToken(Auth.createToken(imei, userId));
+                    vo.setUuid(user.getUuid());
                     obj.put("user", vo);
                     resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_NORMAL_DATA_HAVE, MessageConstant.MSG_INFO_COMMON_0001, obj);
                 } else
@@ -120,6 +125,15 @@ public class LoginServiceImpl implements LoginService {
             else if (StringUtils.isNullOrEmpty(password))
                 resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0009, obj);
             else {
+                RegisterUsers users = new RegisterUsers();
+                users.add(new User().username(userId).password(password));
+                String resultString = new EasemobIMUsers().createNewIMUserSingle(users).toString();
+                if (StringUtils.isNullOrEmpty(resultString))
+                    entity.setUuid("");
+                else {
+                    EmchatUserEntity result = new Gson().fromJson(resultString, EmchatUserEntity.class);
+                    entity.setUuid(result.getEntities().get(0).getUuid());
+                }
                 entity.setUserPassword(password);
                 entity.setUserPhone(phone);
                 userEntityMapper.insertSelective(entity);
@@ -142,6 +156,4 @@ public class LoginServiceImpl implements LoginService {
     public Map<String, Object> getSMScode(String userName, String platform, String password) {
         return null;
     }
-
-
 }

@@ -13,6 +13,10 @@
  *****************************************************************************/
 package com.aaron.aaronworld.utils;
 
+import io.swagger.client.model.RegisterUsers;
+import io.swagger.client.model.User;
+import org.junit.Assert;
+
 import java.util.*;
 
 /**
@@ -244,7 +248,7 @@ public class Auth {
 			return false;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		String token = createToken("240", "wpc5586");
 		token = "3baeb597a104eb6faf99db10f14dcc49-7a5312117779cd596883750ef33ab46a-f872c1a9339d69a9a1bdab8b211dab9e";

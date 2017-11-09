@@ -13,6 +13,8 @@ public class UserEntity {
 
     private String userPassword;
 
+    private String uuid;
+
     private String cityCode;
 
     private String cityName;
@@ -73,6 +75,14 @@ public class UserEntity {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword == null ? null : userPassword.trim();
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getCityCode() {

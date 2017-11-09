@@ -4,6 +4,8 @@ public class UserVo {
 
     private String userName;
 
+    private String uuid;
+
     private String role;
 
     private String cityCode;
@@ -140,5 +142,13 @@ public class UserVo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

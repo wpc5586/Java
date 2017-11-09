@@ -1,0 +1,4 @@
+2017-11-03 14:05:51,057 ERROR [main] c.a.aaronworld.emchat.comm.TokenUtil [TokenUtil.java : 50] java.net.UnknownHostException: a1.easemob.com: nodename nor servname provided, or not known
+2017-11-03 14:13:07,178 ERROR [main] c.a.a.emchat.comm.ResponseHandler [ResponseHandler.java : 46] error_code:400 error_msg:Bad Request error_desc:Application null Entity user requires that property named username be unique, value of aaaa123456223 exists
+2017-11-03 14:13:55,966 ERROR [main] c.a.a.emchat.comm.ResponseHandler [ResponseHandler.java : 46] error_code:400 error_msg:Bad Request error_desc:Application null Entity user requires that property named username be unique, value of aaaa123456369 exists
+2017-11-03 14:58:44,168 ERROR [main] c.a.a.emchat.comm.ResponseHandler [ResponseHandler.java : 46] error_code:400 error_msg:Bad Request error_desc:Application null Entity user requires that property named username be unique, value of wpc5586123321 exists
