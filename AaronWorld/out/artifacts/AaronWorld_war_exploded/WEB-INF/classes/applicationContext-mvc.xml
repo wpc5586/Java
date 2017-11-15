@@ -53,6 +53,7 @@
                     <list>
                         <value>/login.do</value>
                         <value>/regist.do</value>
+                        <value>/getVersion.do</value>
                     </list>
                 </property>
             </bean>

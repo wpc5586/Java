@@ -9,8 +9,16 @@ import java.util.Map;
  * @author  Aaron
  */
 public interface MainService {
+
     /**
-     * 获取IOS版本加密信息
+     * 获取版本信息
+     *
+     * @return Map<String, Object> 返回数据对象
+     */
+    public Map<String, Object> getVersion();
+
+    /**
+     * 获取主页信息
      *
      * @return Map<String, Object> 返回数据对象
      */

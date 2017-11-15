@@ -2,6 +2,8 @@ package com.aaron.aaronworld.vo;
 
 public class UserVo {
 
+    private String userId;
+
     private String userName;
 
     private String uuid;
@@ -31,6 +33,14 @@ public class UserVo {
     private String remark;
 
     private String token;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
 
     public String getUserName() {
         return userName;

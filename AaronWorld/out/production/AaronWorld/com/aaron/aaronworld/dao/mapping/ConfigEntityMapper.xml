@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaron.aaronworld.dao.ConfigEntityMapper">
+    <resultMap id="BaseResultMap" type="com.aaron.aaronworld.dao.entity.ConfigEntity">
+        <id column="config_id" jdbcType="INTEGER" property="configId"/>
+        <result column="config_code" jdbcType="VARCHAR" property="configCode"/>
+        <result column="config_category" jdbcType="VARCHAR" property="configCategory"/>
+        <result column="config_name" jdbcType="VARCHAR" property="configName"/>
+        <result column="config_value" jdbcType="VARCHAR" property="configValue"/>
+        <result column="config_value1" jdbcType="VARCHAR" property="configValue1"/>
+        <result column="config_value2" jdbcType="VARCHAR" property="configValue2"/>
+        <result column="config_value3" jdbcType="VARCHAR" property="configValue3"/>
+        <result column="config_value4" jdbcType="VARCHAR" property="configValue4"/>
+        <result column="config_value5" jdbcType="VARCHAR" property="configValue5"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="upload_user" jdbcType="VARCHAR" property="uploadUser"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="is_usable" jdbcType="CHAR" property="isUsable"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    config_id, config_code, config_category, config_name, config_value, config_value1, 
+    config_value2, config_value3, config_value4, config_value5, create_user, create_date, 
+    upload_user, update_date, is_usable, remark
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_config
+        where config_id = #{configId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByEntity" parameterType="com.aaron.aaronworld.dao.entity.ConfigEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_config
+        where config_category = #{configCategory,jdbcType=VARCHAR}
+        <if test="configName != null">
+            AND config_name = #{configName,jdbcType=VARCHAR}
+        </if>
+        <if test="isUsable != null">
+            AND is_usable = #{isUsable,jdbcType=CHAR}
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_config
+    where config_id = #{configId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.aaron.aaronworld.dao.entity.ConfigEntity">
+    insert into sys_config (config_id, config_code, config_category, 
+      config_name, config_value, config_value1, 
+      config_value2, config_value3, config_value4, 
+      config_value5, create_user, create_date, 
+      upload_user, update_date, is_usable, 
+      remark)
+    values (#{configId,jdbcType=INTEGER}, #{configCode,jdbcType=VARCHAR}, #{configCategory,jdbcType=VARCHAR}, 
+      #{configName,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR}, #{configValue1,jdbcType=VARCHAR}, 
+      #{configValue2,jdbcType=VARCHAR}, #{configValue3,jdbcType=VARCHAR}, #{configValue4,jdbcType=VARCHAR}, 
+      #{configValue5,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{uploadUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{isUsable,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.aaron.aaronworld.dao.entity.ConfigEntity">
+        insert into sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="configId != null">
+                config_id,
+            </if>
+            <if test="configCode != null">
+                config_code,
+            </if>
+            <if test="configCategory != null">
+                config_category,
+            </if>
+            <if test="configName != null">
+                config_name,
+            </if>
+            <if test="configValue != null">
+                config_value,
+            </if>
+            <if test="configValue1 != null">
+                config_value1,
+            </if>
+            <if test="configValue2 != null">
+                config_value2,
+            </if>
+            <if test="configValue3 != null">
+                config_value3,
+            </if>
+            <if test="configValue4 != null">
+                config_value4,
+            </if>
+            <if test="configValue5 != null">
+                config_value5,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="uploadUser != null">
+                upload_user,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="isUsable != null">
+                is_usable,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configId != null">
+                #{configId,jdbcType=INTEGER},
+            </if>
+            <if test="configCode != null">
+                #{configCode,jdbcType=VARCHAR},
+            </if>
+            <if test="configCategory != null">
+                #{configCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="configName != null">
+                #{configName,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue1 != null">
+                #{configValue1,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue2 != null">
+                #{configValue2,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue3 != null">
+                #{configValue3,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue4 != null">
+                #{configValue4,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue5 != null">
+                #{configValue5,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="uploadUser != null">
+                #{uploadUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isUsable != null">
+                #{isUsable,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.aaron.aaronworld.dao.entity.ConfigEntity">
+        update sys_config
+        <set>
+            <if test="configCode != null">
+                config_code = #{configCode,jdbcType=VARCHAR},
+            </if>
+            <if test="configCategory != null">
+                config_category = #{configCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="configName != null">
+                config_name = #{configName,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                config_value = #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue1 != null">
+                config_value1 = #{configValue1,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue2 != null">
+                config_value2 = #{configValue2,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue3 != null">
+                config_value3 = #{configValue3,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue4 != null">
+                config_value4 = #{configValue4,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue5 != null">
+                config_value5 = #{configValue5,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="uploadUser != null">
+                upload_user = #{uploadUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isUsable != null">
+                is_usable = #{isUsable,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where config_id = #{configId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.aaron.aaronworld.dao.entity.ConfigEntity">
+    update sys_config
+    set config_code = #{configCode,jdbcType=VARCHAR},
+      config_category = #{configCategory,jdbcType=VARCHAR},
+      config_name = #{configName,jdbcType=VARCHAR},
+      config_value = #{configValue,jdbcType=VARCHAR},
+      config_value1 = #{configValue1,jdbcType=VARCHAR},
+      config_value2 = #{configValue2,jdbcType=VARCHAR},
+      config_value3 = #{configValue3,jdbcType=VARCHAR},
+      config_value4 = #{configValue4,jdbcType=VARCHAR},
+      config_value5 = #{configValue5,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      upload_user = #{uploadUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      is_usable = #{isUsable,jdbcType=CHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where config_id = #{configId,jdbcType=INTEGER}
+  </update>
+</mapper>

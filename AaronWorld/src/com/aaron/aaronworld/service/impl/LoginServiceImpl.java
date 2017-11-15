@@ -68,7 +68,7 @@ public class LoginServiceImpl implements LoginService {
      */
     public Map<String, Object> login(String userId, String password, String phone, String imsi,
                                      String imei, String channelId, String deviceType) {
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap;
         Map<String, Object> obj = new HashMap<>();
         try {
             UserEntity entity = new UserEntity();
@@ -82,6 +82,7 @@ public class LoginServiceImpl implements LoginService {
                     resultMap = ResponseUtil.returnMap(Constant.RESULT_CODE_ABNORMAL, MessageConstant.MSG_JF_ERROR_0005, obj);
                 else if (password.equals(user.getUserPassword())) {
                     UserVo vo = new UserVo();
+                    vo.setUserId(userId);
                     vo.setUserName(user.getUserName());
                     vo.setCityCode(user.getCityCode());
                     vo.setCityName(user.getCityName());
@@ -111,7 +112,7 @@ public class LoginServiceImpl implements LoginService {
      * @return Map<String, Object> 返回数据对象
      */
     public Map<String, Object> regist(String userId, String password, String phone) {
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap;
         Map<String, Object> obj = new HashMap<>();
         try {
             UserEntity entity = new UserEntity();

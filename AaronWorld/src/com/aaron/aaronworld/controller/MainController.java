@@ -1,6 +1,7 @@
 package com.aaron.aaronworld.controller;
 
 import com.aaron.aaronworld.service.LoginService;
+import com.aaron.aaronworld.service.MainService;
 import com.aaron.aaronworld.utils.AES;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +17,23 @@ import java.util.Map;
 @RequestMapping(value = "/aaron")
 public class MainController {
 
-    /** 登录Service */
-    @Resource(name = "LoginServiceImpl")
-    private LoginService loginService;
+    /** MainService */
+    @Resource(name = "MainServiceImpl")
+    private MainService mainService;
 
     @RequestMapping("/getMainContent.do")
     @ResponseBody
     public Map<String, Object> getMainContent(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
         Map<String,Object> map = new HashMap<>();
 //        map = loginService.login(AES.decrypt(userId), AES.decrypt(password), "", "", "", "", "", "", "");
+        return map;
+    }
+
+    @RequestMapping("/getVersion.do")
+    @ResponseBody
+    public Map<String, Object> getVersion(HttpServletRequest request, HttpServletResponse response) {
+        Map<String,Object> map;
+        map = mainService.getVersion();
         return map;
     }
 }

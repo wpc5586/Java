@@ -216,7 +216,7 @@ public class AES {
 		try {
 			System.out.println("~!~ result = " + Auth.createToken("999", "xiaow"));
 			System.out.println("~!~ result = " + encrypt("2017-07"));
-			System.out.println("~!~ result = " + decrypt("7CaIwo8j7VmDCdc9C1AyG7CIwJr2YXrOIqQp1PiteoXMgiIq5ETAuOOQMHXmysXV"));
+			System.out.println("~!~ result = " + decrypt("iZ2zejdsldg4h0i7jyh33uZ"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
